@@ -36,6 +36,16 @@ def shell(environment, command=None):
                 source "$BASHRC"
             fi
 
+    .. note:
+
+        Git-bash does not run Python in a subshell as expected. It will freeze
+        the shell. To work around that, the .bashrc can be modified to use
+        winpty, like::
+
+            if [ "$TERM" == "xterm" ]; then
+                alias python='winpty python.exe'
+            fi
+
     """
     logger = wiz.logging.Logger(__name__ + ".shell")
 
