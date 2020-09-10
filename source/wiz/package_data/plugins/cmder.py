@@ -15,7 +15,8 @@ import wiz.shell
 IDENTIFIER = "cmder"
 
 # Path to the cmder executable on the file system.
-EXECUTABLE = "C:\\cmder\\Cmder.exe"
+# EXECUTABLE = "C:\\Program Files\\Git\\bin\\bash.exe"
+EXECUTABLE = "C:\\cmder\\vendor\\git-for-windows\\bin\\bash.exe"
 
 
 def shell(environment, command=None):
@@ -45,7 +46,6 @@ def shell(environment, command=None):
 
     # Convert entries of environment from unicode to string.
     environment = wiz.shell.convert(environment)
-    environment["USERPROFILE"] = os.path.expanduser("~")
 
     logger.info("Spawn shell: {}".format(EXECUTABLE))
 
@@ -56,11 +56,12 @@ def shell(environment, command=None):
         rcfile.write("alias {0}='{1}'\n".format(alias, value))
         rcfile.flush()
 
+    executable = [EXECUTABLE, "--login", "-new_console:d:%USERPROFILE%"]
     if os.path.exists(rcfile.name):
-        environment["BASHRC"] = rcfile.name
+        executable = executable + ["--rcfile", rcfile.name]
 
     p = wiz.shell.popen(
-        [EXECUTABLE],
+        executable,
         env=environment,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
@@ -94,7 +95,6 @@ def execute(elements, environment):
 
     # Convert entries of environment from unicode to string.
     environment = wiz.shell.convert(environment)
-    environment["USERPROFILE"] = os.path.expanduser("~")
 
     # Substitute environment variables from command line elements.
     elements = [
