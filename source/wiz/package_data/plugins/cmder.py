@@ -15,7 +15,6 @@ import wiz.shell
 IDENTIFIER = "cmder"
 
 # Path to the cmder executable on the file system.
-# EXECUTABLE = "C:\\Program Files\\Git\\bin\\bash.exe"
 EXECUTABLE = "C:\\cmder\\vendor\\git-for-windows\\bin\\bash.exe"
 
 
